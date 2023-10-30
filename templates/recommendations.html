@@ -1,15 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recomendaciones de Películas</title>
+    <!-- Añadir CSS de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .container {
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Recomendaciones de Películas</h1>
-    <h2>Recomendaciones basadas en tus selecciones:</h2>
-    <ul>
-        {% for movie in recommended_movies %}
-        <li>{{ movie }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1 class="mb-4">Recomendaciones de Películas</h1>
+        <h2 class="mb-3">Recomendaciones basadas en tus selecciones:</h2>
+        <div class="row">
+            {% for movie_title in recommended_movies %}
+            <div class="col-md-2">
+                <div class="card">
+                    <!-- Aquí puedes añadir una imagen por defecto o según la película -->
+                    <img src="url_de_la_imagen" class="card-img-top" alt="{{ movie_title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie_title }}</h5>
+                        <!-- Puedes añadir una descripción estática o según la película si la tienes disponible -->
+                        <p class="card-text">Descripción de la película</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Añadir JavaScript y dependencias de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

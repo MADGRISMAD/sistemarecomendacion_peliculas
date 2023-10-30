@@ -1,20 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Películas Aleatorias</title>
+    <!-- Añadir CSS de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .container {
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Películas Aleatorias</h1>
-    <form action="/recommendations" method="post">
-        <h2>Selecciona 5 películas:</h2>
-        <ul>
-            {% for movie in random_movies.iterrows() %}
-            <li>
-                <input type="checkbox" name="selected_movies" value="{{ movie.1.title }}">{{ movie.1.title }}
-            </li>
-            {% endfor %}
-        </ul>
-        <input type="submit" value="Obtener Recomendaciones">
-    </form>
+    <div class="container">
+        <h1 class="mb-4">Películas Aleatorias</h1>
+        <form action="/recommendations" method="post">
+            <div class="row">
+                {% for movie in random_movies.iterrows() %}
+                <div class="col-md-2">
+                    <div class="card">
+                        <img src="{{ movie.1.image_url }}" class="card-img-top" alt="{{ movie.1.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.1.title }}</h5>
+                            <p>Calificación Promedio: {{ movie.1.rating }}</p>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="selected_movies" value="{{ movie.1.title }}" id="movie{{ loop.index }}">
+                                <label class="form-check-label" for="movie{{ loop.index }}">Seleccionar</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Obtener Recomendaciones</button>
+        </form>
+    </div>
+
+    <!-- Añadir JavaScript y dependencias de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
