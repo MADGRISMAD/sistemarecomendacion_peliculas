@@ -38,13 +38,22 @@
                                 <label class="form-check-label" for="movie{{ loop.index }}">Seleccionar</label>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
                 {% endfor %}
             </div>
             <button type="submit" class="btn btn-primary mt-3">Obtener Recomendaciones</button>
         </form>
+
+        <!-- Mostrar recomendaciones de películas -->
+        <div class="mt-5">
+            <h2>Recomendaciones de Películas</h2>
+            <ul>
+                {% for movie in recommended_movies %}
+                    <li>{{ movie.title }} (Calificación: {{ movie.rating }})</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <!-- Añadir JavaScript y dependencias de Bootstrap -->

@@ -3,6 +3,10 @@ import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from flask import Flask, render_template, request
+import requests  # Importa la biblioteca requests
+
+# Define tu clave de API de TMDb
+TMDB_API_KEY = "15d2ea6d0dc1d476efbca3eba2b9bbfb"
 
 # Carga los datos
 movies = pd.read_csv('data/movies.csv').head(100)
@@ -28,18 +32,19 @@ random_movies = random_movies.merge(ratings.groupby('movieId')['rating'].mean().
 # Simula la selección del usuario de 5 películas
 user_selection = random_movies.sample(n=5)['title']
 
-def get_recommendations(movie_title, cosine_sim=cosine_sim, movies_data=movies_with_ratings):
-    idx = movies_data[movies_data['title'] == movie_title].index[0]
-    sim_scores = list(enumerate(cosine_sim[idx]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:11]
-    movie_indices = [i[0] for i in sim_scores]
-
-    # Obtén las calificaciones promedio para las películas recomendadas
-    recommended_movies = movies_data.iloc[movie_indices]
-    recommended_movies = recommended_movies[recommended_movies['rating'] >= 3.5]
-
-    return recommended_movies[['title', 'rating']]
+def get_movie_info(movie_title, api_key=TMDB_API_KEY):
+    # Realiza una solicitud a la API de TMDb para obtener información de la película
+    base_url = "https://api.themoviedb.org/3/search/movie"
+    params = {
+        'api_key': api_key,
+        'query': movie_title
+    }
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        movie_data = response.json()
+        if 'results' in movie_data and len(movie_data['results']) > 0:
+            return movie_data['results'][0]
+    return None
 
 app = Flask(__name__)
 
@@ -57,7 +62,9 @@ def get_user_recommendations():
     # Genera recomendaciones basadas en las películas seleccionadas
     recommendations = []
     for movie_title in selected_movies:
-        recommendations.extend(get_recommendations(movie_title))
+        movie_info = get_movie_info(movie_title)
+        if movie_info:
+            recommendations.extend(get_recommendations(movie_title))
     
     # Elimina duplicados y las películas ya seleccionadas
     recommendations = list(set(recommendations) - set(selected_movies))
