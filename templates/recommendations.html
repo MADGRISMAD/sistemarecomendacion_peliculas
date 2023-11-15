@@ -22,6 +22,36 @@
         align-items: center;
         position: relative; /* Para el posicionamiento absoluto del título */
       }
+
+      .movie-synopsis {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+      }
+
+      /* Establece la visibilidad y opacidad al hacer hover sobre el cartel */
+      .movie-card:hover .movie-synopsis {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      /* Añade un overlay negro al hacer hover sobre el cartel */
+      .poster-overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Puedes ajustar la opacidad aquí */
+      }
+
+      /* Ajusta el estilo del texto sobre el overlay */
+      .movie-card:hover p {
+        z-index: 1;
+        /* Asegura que el texto esté sobre el overlay */
+        position: relative;
+        color: white;
+        /* Cambia el color del texto al hacer hover */
+      }
     </style>
     <header class="bg-gradient-to-none from-red-900 to-transparent p-4">
       <div class="container mx-auto flex justify-between items-center">
@@ -67,13 +97,23 @@
         <li>
           <div class="relative group">
             <div
-              class="movie-card p-4 bg-gray-900 border border-gray-700 transition duration-300 group-hover:bg-gray-700 group-hover:border-red-600"
+              class="movie-card p-4 bg-gray-900 border border-gray-700 transition duration-300 group-hover:bg-gray-700 group-hover:border-red-600 relative"
+              onclick="toggleMovieCard(this)"
             >
               <img
                 src="https://image.tmdb.org/t/p/w400{{ movie['poster_path'] }}"
                 alt="{{ movie['title'] }} Movie Poster"
                 class="w-full h-auto hero"
               />
+              <div
+                class="movie-synopsis hidden absolute top-0 left-0 right-0 bottom-0 bg-gray-800 p-4 opacity-0 transition duration-300"
+              >
+                <p>{{ movie['overview'] }}</p>
+              </div>
+              <div
+                class="poster-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-0 transition duration-300"
+              ></div>
+
               <p class="text-sm text-center mt-2">{{ movie['title'] }}</p>
             </div>
           </div>
@@ -162,5 +202,8 @@
             </li>
         {% endfor %}
     </ul> -->
+    <script>
+      function toggleMovieCard(card) {}
+    </script>
   </body>
 </html>
