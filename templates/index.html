@@ -69,6 +69,11 @@
             color: white;
             /* Cambia el color del texto al hacer hover */
         }
+        .movie-card.selected {
+    background-color: #374151; /* Un gris más oscuro para el fondo */
+    border-color: #f87171; /* Un borde rojo para destacar */
+}
+
     </style>
 
     <header class="bg-gradient-to-none from-red-900 to-transparent p-4">
@@ -188,6 +193,10 @@
         function toggleMovieCard(card) {
             // Lógica adicional si es necesario
         }
+        function toggleMovieCard(card) {
+    card.classList.toggle('selected');
+}
+
 
     </script>
 </body>
