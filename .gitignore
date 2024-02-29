@@ -1,0 +1,10 @@
+# Ignorar entorno virtual creado por venv o virtualenv
+myenv/
+
+# Ignorar archivos de caché de pip
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorar archivo de registro de dependencias
+pip-log.txt
